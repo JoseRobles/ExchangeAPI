@@ -30,3 +30,10 @@ Following the convention of paths. UserID should be obtained from one of the hea
 
 # Also, how would you improve the transaction to ensure that the user who makes the purchase is the correct user?
 Authentication should be done before hitting the transaction endpoint. Also, you can authenticate and get a token (json web token) which will be used to access the other endpoints. 
+
+The endpoints are:
+
+exchange/rate/{ISOCode}
+exchange/purchase
+
+
