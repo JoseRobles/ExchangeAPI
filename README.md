@@ -34,6 +34,7 @@ Authentication should be done before hitting the transaction endpoint. Also, you
 The endpoints are:
 
 exchange/rate/{ISOCode}
+
 exchange/purchase
 
 
