@@ -22,8 +22,8 @@ namespace Infrastructure.Currencies
         public override void SetRatesAndPurchaseLimit()
         {
             var rateList = _service.GetURLRate(ISOCode);
-            SellRate = rateList.Item1;
-            BuyRate = rateList.Item2;
+            BuyRate = rateList.Item1;
+            SellRate = rateList.Item2;
             PurchaseLimit = rateList.Item3;
         }
     }
