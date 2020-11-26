@@ -179,10 +179,10 @@ namespace Infrastructure
 
         public Tuple<bool, decimal> CheckTransactionLimit(TransactionContext context, Transaction transaction)
         {
-            var currentTransactionSum = GetTransactionSum(context, transaction);
+            var previousTransactionsSum = GetTransactionSum(context, transaction);
             var currency = GetCurrency(transaction.IsoCurrency);
             var currentTransaction = Math.Round(transaction.Amount / currency.SellRate, 2);
-            bool excededLimit = (currentTransactionSum + currentTransaction) > currency.PurchaseLimit;
+            bool excededLimit = (previousTransactionsSum + currentTransaction) > currency.PurchaseLimit;
 
             return new Tuple<bool, decimal>(excededLimit, currentTransaction);
         }
