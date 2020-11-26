@@ -106,9 +106,9 @@ namespace Infrastructure
                     }
                 }
             }
-            catch (Exception exp)
+            catch (Exception exception)
             {
-                //Logger
+                _logger.LogError("Get URL Rate. Exception: " + exception.ToString());
             }
 
             buyRate = ConvertToDecimal(serviceResponse[0]);
