@@ -46,6 +46,12 @@ namespace Infrastructure
                 response.ErrorMessage = currency_exception.Message;
                 _logger.LogError("Exception: Currency Not Found");
             }
+            catch(URLNotFoundException urlnotfound_exception)
+            {
+                response.ResponseCode = 500;
+                response.ErrorMessage = "Internal Server Error";
+                _logger.LogError("Exception: " + urlnotfound_exception.ToString());
+            }
             catch (Exception exception)
             {
                 response.ResponseCode = 500;
@@ -93,6 +99,11 @@ namespace Infrastructure
             var url = currency.URL;
             var limit = currency.PurchaseLimit;
 
+            if (url == null || url == String.Empty)
+            {
+                throw new URLNotFoundException(ISOCode);
+            }
+
             var serviceResponse = new List<string>();
             try
             {
@@ -105,15 +116,17 @@ namespace Infrastructure
                         serviceResponse = JsonConvert.DeserializeObject<List<string>>(response.Result.Content.ReadAsStringAsync().Result);
                     }
                 }
+
+                buyRate = ConvertToDecimal(serviceResponse[0]);
+                sellRate = ConvertToDecimal(serviceResponse[1]);
+                currenyLimit = ConvertToDecimal(limit);
+
             }
             catch (Exception exception)
             {
                 _logger.LogError("Get URL Rate. Exception: " + exception.ToString());
+                throw new CurrencyNotFoundException(ISOCode);
             }
-
-            buyRate = ConvertToDecimal(serviceResponse[0]);
-            sellRate = ConvertToDecimal(serviceResponse[1]);
-            currenyLimit = ConvertToDecimal(limit);
 
             return new Tuple<decimal, decimal, decimal>(buyRate, sellRate, currenyLimit);
         }
@@ -166,6 +179,12 @@ namespace Infrastructure
             {
                 response.ResponseCode = 400;
                 response.ErrorMessage = purchase_limit_exception.Message;
+            }
+            catch (URLNotFoundException urlnotfound_exception)
+            {
+                response.ResponseCode = 500;
+                response.ErrorMessage = "Internal Server Error";
+                _logger.LogError("Exception: " + urlnotfound_exception.ToString());
             }
             catch (Exception exception)
             {
