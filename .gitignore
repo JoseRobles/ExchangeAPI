@@ -1,0 +1,9 @@
+ExchangeAPI/obj
+ExchangeAPI/bin
+ExchangeAPI/.vs
+Domain/obj
+Domain/bin
+Infrastructure/obj
+Infrastructure/bin
+ExchangeAPITest/obj
+ExchangeAPITest/bin
